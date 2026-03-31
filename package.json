@@ -1,7 +1,6 @@
 {
-  "name": "zerotext",
+  "name": "zerotextx",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "workspaces": [
     "packages/*",
