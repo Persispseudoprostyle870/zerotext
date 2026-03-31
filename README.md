@@ -7,6 +7,10 @@ Zero-allocation text layout engine for the web. Sub-microsecond cached layouts, 
 [![license](https://img.shields.io/github/license/byte271/zerotext)](./LICENSE)
 [![CI](https://github.com/byte271/zerotext/actions/workflows/ci.yml/badge.svg)](https://github.com/byte271/zerotext/actions/workflows/ci.yml)
 
+## Demo
+
+[Live Demo](https://byte271.github.io/zerotext/zerotext/docs/index.html) — interactive pipeline visualization with real ported algorithms, benchmark runner, and 62 browser tests.
+
 ## Why ZeroText?
 
 Canvas-based text layout allocates on every frame. DOM-based layout triggers reflow. ZeroText does neither.
