@@ -49,7 +49,7 @@ Run locally: `npx tsx benchmarks/features.ts`
 ## Installation
 
 ```bash
-npm install @zerotext/core
+npm install @zerotextx/core
 ```
 
 ## Usage
